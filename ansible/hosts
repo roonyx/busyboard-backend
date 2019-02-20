@@ -1,0 +1,9 @@
+[hosts]
+testcake ansible_port=42777 ansible_host=46.254.19.100
+
+[hosts:vars]
+app_path=/srv/busy-board
+app_name=busy-board
+domain=busy.roonyx.team
+node_port=3009
+repo=ssh://git@gitlab.roonyx.team:2222/busy-board/busy-board-back.git

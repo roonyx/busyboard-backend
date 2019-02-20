@@ -1,0 +1,36 @@
+image: node:latest
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+stages:
+  - test
+  - deploy
+
+job:test:
+  stage: test
+  before_script:
+    - npm install --silent
+  script: npm run test
+
+deploy:production:
+  stage: deploy
+  image: python:3.6
+  only:
+    - master
+  environment:
+    name: production
+    url: http://busy.roonyx.team
+  script:
+    - pip install ansible
+    # install ssh-agent
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    # run ssh-agent
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    # deploy
+    - ansible-playbook -i ansible/hosts ansible/deploy.yml

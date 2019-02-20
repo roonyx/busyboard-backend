@@ -1,0 +1,34 @@
+---
+- hosts: hosts
+  user: deploy
+
+  tasks:
+    - name: Set some variable
+      set_fact:
+        release_path: "{{ app_path }}/back/releases/{{ lookup('pipe','date +%Y%m%d%H%M%S') }}"
+        current_path: "{{ app_path }}/back/current"
+    - name: Create new folder
+      file:
+        dest={{ release_path }}
+        mode=0755
+        recurse=yes
+        state=directory
+    - name: Clone the repository
+      git:
+        repo: "{{ repo }}"
+        dest: "{{ release_path }}"
+    - name: Update npm
+      npm:
+        path={{ release_path }}
+    - name: Update symlink
+      file:
+        src={{ release_path }}
+        dest={{ current_path }}
+        state=link
+    - name: Delete old pm2 process
+      command: pm2 delete {{ app_name }}
+      ignore_errors: yes
+    - name: Start pm2
+      command: PORT={{node_port}} pm2 start {{ current_path }}/app.js --name {{ app_name }}
+    - name: Leave only last releases
+      shell: "cd {{ app_path }}/front/releases && find ./ -maxdepth 1 | grep -G .............. | sort -r | tail -n +{{ keep_releases+1 }} | xargs rm -rf"
