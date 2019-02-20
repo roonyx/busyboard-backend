@@ -7,3 +7,4 @@ app_name=busy-board
 domain=busy.roonyx.team
 node_port=3009
 repo=ssh://git@gitlab.roonyx.team:2222/busy-board/busy-board-back.git
+keep_releases=2
