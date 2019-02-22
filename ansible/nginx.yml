@@ -1,0 +1,19 @@
+---
+- hosts: hosts
+  user: deploy
+  become: yes
+
+  tasks:
+    - name: Add the config template to the Nginx available sites
+      template:
+        src: templates/nginx.conf
+        dest: "/etc/nginx/sites-available/{{ app_name }}.conf"
+    - name: Enable the config template from Nginx available sites
+      file:
+        src: "/etc/nginx/sites-available/{{ app_name }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ app_name }}.conf"
+        state: link
+    - name: Check NGINX configs
+      shell: "nginx -t"
+    - name: Restart NGINX
+      shell: "service nginx restart"
