@@ -25,6 +25,11 @@
         src={{ release_path }}
         dest={{ current_path }}
         state=link
+    - name: Update .env symlink
+      file:
+        src={{ app_path }}/back/.env
+        dest={{ current_path }}/.env
+        state=link
     - name: Delete old pm2 process
       command: pm2 delete {{ app_name }}
       ignore_errors: yes

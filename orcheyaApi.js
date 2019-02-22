@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const fetch = require('node-fetch');
 const dotenv = require('dotenv').config().parsed;
-const BASE_API_URL = 'http://staging.orcheya.com';
+const BASE_API_URL = 'http://orcheya.com';
 
 class OrcheyaApi {
   constructor() {
