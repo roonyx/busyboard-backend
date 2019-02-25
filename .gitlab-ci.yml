@@ -6,14 +6,7 @@ cache:
     - node_modules/
 
 stages:
-  - test
   - deploy
-
-job:test:
-  stage: test
-  before_script:
-    - npm install --silent
-  script: npm run test
 
 deploy:production:
   stage: deploy
