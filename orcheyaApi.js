@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const fetch = require('node-fetch');
-const dotenv = require('dotenv').config().parsed;
-const BASE_API_URL = 'http://orcheya.com';
+const BASE_API_URL = process.env.ORCHEYA_BASE_API;
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 class OrcheyaApi {
   constructor() {
@@ -23,8 +24,8 @@ class OrcheyaApi {
     const params = {
       method: 'POST',
       body: JSON.stringify({
-        client_id: dotenv.CLIENT_ID,
-        client_secret: dotenv.CLIENT_SECRET,
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
       }),
       headers: {
         'Content-Type': 'application/json'

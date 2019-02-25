@@ -34,6 +34,6 @@
       command: pm2 delete {{ app_name }}
       ignore_errors: yes
     - name: Start pm2
-      shell: "PORT={{node_port}} pm2 start {{ current_path }}/app.js --name {{ app_name }}"
+      shell: "pm2 start {{ current_path }}/app.js --name {{ app_name }}"
     - name: Leave only last releases
       shell: "cd {{ app_path }}/front/releases && find ./ -maxdepth 1 | grep -G .............. | sort -r | tail -n +{{ keep_releases+1 }} | xargs rm -rf"
