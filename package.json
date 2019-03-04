@@ -15,6 +15,7 @@
   "author": "Roonyx Team",
   "license": "ISC",
   "dependencies": {
+    "append-query": "^2.0.1",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.0",
