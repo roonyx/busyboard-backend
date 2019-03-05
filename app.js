@@ -7,6 +7,6 @@ const app = express();
 
 app.listen(PORT);
 app.get('/api/worklogs/', async (request, response) => {
-  const data = await orcheyaApi.getWorklogs({date: '8.02.1725'}, request.query);
+  const data = await orcheyaApi.getWorklogs({}, request.query);
   response.send(data);
 });
