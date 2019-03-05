@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const fetch = require('node-fetch');
+const appendQuery = require('append-query');
 const BASE_API_URL = process.env.ORCHEYA_BASE_API;
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -40,7 +41,8 @@ class OrcheyaApi {
     };
   };
 
-  async getWorklogs(params) {
+  async getWorklogs(params, queryParams) {
+    const URL = appendQuery(`${BASE_API_URL}/api/worklogs`, queryParams);
     await this.checkToken();
     const defParams = {
       headers: {
@@ -49,7 +51,7 @@ class OrcheyaApi {
     };
     Object.assign(defParams, params);
     try {
-      const response = await fetch(`${BASE_API_URL}/api/worklogs`, defParams);
+      const response = await fetch(URL, defParams);
       const json = await response.json();
       return json;
     } catch (error) {
